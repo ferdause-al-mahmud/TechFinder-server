@@ -32,12 +32,17 @@ async function run() {
 
         app.get('/products', async (req, res) => {
             let name = req.query?.name;
+            let sortingOrder = parseInt(req.query?.order);
             let query = {};
+            let options = {};
             if (name) {
                 name = new RegExp(name, 'i');
                 query = { ...query, productName: name };
             }
-            const result = await productsCollection.find(query).toArray();
+            if (!isNaN(sortingOrder)) {
+                options.sort = { price: sortingOrder }; // Sorting based on price
+            }
+            const result = await productsCollection.find(query, options).toArray();
             res.send(result);
         });
         // await client.db('admin').command({ ping: 1 })
