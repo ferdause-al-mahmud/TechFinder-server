@@ -33,14 +33,19 @@ async function run() {
         app.get('/products', async (req, res) => {
             let name = req.query?.name;
             let sortingOrder = parseInt(req.query?.order);
+            let sortingDateOrder = parseInt(req.query?.dateOrder);
             let query = {};
-            let options = {};
+            let options = { sort: {} };
             if (name) {
                 name = new RegExp(name, 'i');
                 query = { ...query, productName: name };
             }
             if (!isNaN(sortingOrder)) {
-                options.sort = { price: sortingOrder }; // Sorting based on price
+                options.sort.price = sortingOrder;
+            }
+
+            if (!isNaN(sortingDateOrder)) {
+                options.sort.creationDate = sortingDateOrder;
             }
             const result = await productsCollection.find(query, options).toArray();
             res.send(result);
