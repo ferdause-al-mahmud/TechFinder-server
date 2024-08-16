@@ -31,7 +31,13 @@ async function run() {
 
 
         app.get('/products', async (req, res) => {
-            const result = await productsCollection.find().toArray();
+            let name = req.query?.name;
+            let query = {};
+            if (name) {
+                name = new RegExp(name, 'i');
+                query = { ...query, productName: name };
+            }
+            const result = await productsCollection.find(query).toArray();
             res.send(result);
         });
         // await client.db('admin').command({ ping: 1 })
