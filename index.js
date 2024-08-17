@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 const { MongoClient, ServerApiVersion } = require('mongodb')
 const port = process.env.PORT || 8000
 const corsOptions = {
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', 'https://tehcfinder.web.app'],
     credentials: true,
     optionSuccessStatus: 200,
 }
@@ -60,9 +60,9 @@ async function run() {
             res.send(result);
         });
         // await client.db('admin').command({ ping: 1 })
-        console.log(
-            'Pinged your deployment. You successfully connected to MongoDB!'
-        )
+        // console.log(
+        //     'Pinged your deployment. You successfully connected to MongoDB!'
+        // )
     } finally {
         // Ensures that the client will close when you finish/error
     }
