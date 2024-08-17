@@ -33,6 +33,7 @@ async function run() {
         app.get('/products', async (req, res) => {
             let name = req.query?.name;
             let brand = req.query?.brand;
+            let cat = req.query?.cat;
             let sortingOrder = parseInt(req.query?.order);
             let sortingDateOrder = parseInt(req.query?.dateOrder);
             let query = {};
@@ -42,8 +43,11 @@ async function run() {
                 query = { ...query, productName: name };
             }
             if (brand) {
-                brand = new RegExp(brand, 'i'); // Create RegExp for brand
-                query = { ...query, brand }; // Correctly add brand to the query
+                brand = new RegExp(brand, 'i');
+                query = { ...query, brand };
+            }
+            if (cat) {
+                query = { ...query, category: cat };
             }
             if (!isNaN(sortingOrder)) {
                 options.sort.price = sortingOrder;
